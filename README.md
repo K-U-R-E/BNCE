@@ -6,8 +6,8 @@ This project is in association with the Kingston University's Rocket Propulsion 
 
 The repository can be downloaded using the command git clone "https://github.com/vinaywilliams/HENDT.git". If you have access to this repository and it wasn't allowed by one of the following persons please inform one of them:
 
-* Malcolm Claus(m.claus@kingston.ac.uk)
-* Peter Shaw(p.shaw@kingston.ac.uk) 
-* Charles Simpson(k1940133@kingston.ac.uk)
+* Malcolm Claus (m.claus@kingston.ac.uk)
+* Peter Shaw (p.shaw@kingston.ac.uk) 
+* Charles Simpson (k1940133@kingston.ac.uk)
 * Vinay Williams (k1811677@kingston.ac.uk) 
 
