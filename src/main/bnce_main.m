@@ -121,7 +121,20 @@ ylabel('y/m')
 grid on
 title('Nozzle Contour')
 
+%% TODO 
+
+% MOST IMPORTANT: x,y,z points into a file 
+% performance into a file 
+
 %% Performance Characteristics 
+
+% FORCE
+% EXIT MACH 
+% EXIT TEMPERATURE
+% EXIT VELOCITY 
+% THROAT RADIUS
+% EXIT RADIUS 
+
 te = T* (1 + (G2/2)* M^2);
 ve = M * sqrt(G*8.314*te);
 
@@ -131,5 +144,5 @@ if mdot == 0
 else
     f = mdot*ve +(PA-PC)*Ae;
 end
-disp("Exit Mach Number: "M)
+disp("Exit Mach Number: "+M)
 disp(f)
