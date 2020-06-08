@@ -20,6 +20,14 @@
 % OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 % SOFTWARE.
 
+%% References
+
+% Rao, G.V.R., 1958. Exhaust nozzle contour for optimum thrust. *Journal of Jet Propulsion*, *28*(6), pp.377-382.
+
+% Davis, K., Fortner, E., Heard, M., McCallum, H. and Putzke, H., 2015. Experimental and
+% computational investigation of a dual-bell nozzle. In *53rd AIAA Aerospace Sciences Meeting* (p. 0377).
+
+
 
 %%
 clear all
@@ -30,7 +38,7 @@ fprintf("Written by Mohammed Zweiri, Pritom Chowdhury and Vinay Williams")
 fprintf("at Kingston University, 2020")
 
 %% Input variables:
-
+mdot = 1;
 G = 1.475;                                                                                           % Specific heat ratio
 theta_1st = 13;                                                                                      % half cone angle, 15 degrees is often used a reference in comparing lengths and thrust performances(Degree)
 theta_nth = 40;                                                                                      % Angle that seperates the parabola and throat exit(Degree)
@@ -114,6 +122,14 @@ grid on
 title('Nozzle Contour')
 
 %% Performance Characteristics 
+te = T* (1 + (G2/2)* M^2);
+ve = M * sqrt(G*8.314*te);
 
 
-fprintf(f)
+if mdot == 0
+    f = (PA-PC)*Ae;
+else
+    f = mdot*ve +(PA-PC)*Ae;
+end
+disp("Exit Mach Number: "M)
+disp(f)
