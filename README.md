@@ -2,7 +2,9 @@
 
 # B.N.C.E ~ Bell Nozzle Contour Evaluator
 
-This project is in association with the Kingston University's Rocket Propulsion Group/ Formula Rocket Team. It was initially created for use in the design of a 2-3kN hybrid engine for space port america cup 2021. 
+This project is in association with the Kingston University's Rocket Propulsion Group/ Formula Rocket Team. It was initially created for use in the design of a hybrid engine for space port america cup 2021. 
+
+The tool has two solves being implemented, Rao's method and the Method of Characteristics.
 
 The repository can be downloaded using the command git clone "https://github.com/vinaywilliams/BNCE.git". If you have access to this repository and it wasn't allowed by one of the following persons please inform one of them:
 
