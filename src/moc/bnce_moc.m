@@ -1,12 +1,12 @@
 clc; close all; clear all;
 %INPUT VALUES
-p_1 = 4882399.71812414;     %CHAMBER PRESSURE
-T_1 = 3500;     %CHAMBER TEMP
-FT = 4500;      %DESIRED THRUST OR....
-m_dot = 0;   %DESIRED MASS FLOW RATE....
+p_1 = 4000000;     %CHAMBER PRESSURE
+T_1 = 3347;     %CHAMBER TEMP
+FT = 0;      %DESIRED THRUST OR....
+m_dot = 1800;   %DESIRED MASS FLOW RATE....
 ALT = 9000;     %ALTITUDE
 g = 1.475;       %GAMMA
-R = 8.3145;       %GAS CONSTANT
+R = 8.314/26.912;       %GAS CONSTANT
 
 %% exit pressure
 if (11000>ALT) && (ALT<25000)
@@ -43,7 +43,7 @@ a_e = sqrt(g*R*T_e);
 Me = v_e/a_e;
 
 % MOC
-TR = 2.5; %throat radius (cm)
+TR = 2.0; %throat radius (cm)
 RTOD = 180/pi;
 DTOR = pi/180;
 P = []; %x axis points
@@ -130,8 +130,10 @@ b(1) = TR;
     yw = [TR yw];
     RTHROAT = TR;
     REXIT = yw(length(yw));
+    disp("Diameter of throat: "+ num2str(RTHROAT*2)+"cm");
+    disp("Diameter of exit: "+ num2str(REXIT*2)+"cm");
 
-    AR = (RTHROAT/REXIT)^2
+    AR = (RTHROAT/REXIT)^2;
 
     %xw
     %yw
