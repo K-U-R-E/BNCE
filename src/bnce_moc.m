@@ -1,54 +1,16 @@
-clc; close all; clear all;
-%INPUT VALUES
-p_1 = 4000000;     %CHAMBER PRESSURE
-T_1 = 3347;     %CHAMBER TEMP
-FT = 0;      %DESIRED THRUST OR....
-m_dot = 1800;   %DESIRED MASS FLOW RATE....
-ALT = 9000;     %ALTITUDE
-g = 1.475;       %GAMMA
-R = 8.314/26.912;       %GAS CONSTANT
+function [xpoints, ypoints] = bnce_moc( RT, gamma, R,Me, temperature_exit)
 
-%% exit pressure
-if (11000>ALT) && (ALT<25000)
-    T = -56.46; %C
-    p_o = 1000*(22.65*exp(1.73-0.000157*ALT));
-elseif ALT>=25000
-    T = -131.21 + 0.00299*ALT ;
-    p_o = 1000*(2.488*((T+273.1)/216.6)^-11.388);
-else
-    T = 15.04 - 0.00649*ALT;
-    p_o = 1000*(101.29*((T+273.1)/288.08)^5.256);
-end
 
-p_o = 101325;
-%%  begin calculation
-PR = p_o/p_1;
-PR2 = (p_o/p_1)^((g-1)/g);
-TT = (2*g*R*T_1)/(g-1);
-p_t = ((2/(g+1))^(g/(g-1)))*2.068;
-v_t = sqrt((2*g*R*T_1)/(g+1));
-v_e = sqrt(TT*(1-PR2));
-
-if m_dot==0
-    m_dot=FT/v_e;
-elseif FT==0
-    FT = m_dot/v_e;
-else
-    fprintf('You can either set desired thrust OR mass flow rate')
-end
-
-T_e = T_1*(p_o/p_1)^((g-1)/g);
-a_e = sqrt(g*R*T_e);
-
-Me = v_e/a_e;
+a_e = sqrt(gamma*R*temperature_exit);
 
 % MOC
-TR = 2.0; %throat radius (cm)
+TR = RT;
+
 RTOD = 180/pi;
 DTOR = pi/180;
 P = []; %x axis points
 %% PM FUNCTION
-v_PM = @(x) (sqrt((g+1)/(g-1)))*atan(sqrt(((g-1)/(g+1))*(x^2-1))) - atan(sqrt(x^2-1));
+v_PM = @(x) (sqrt((gamma+1)/(gamma-1)))*atan(sqrt(((gamma-1)/(gamma+1))*(x^2-1))) - atan(sqrt(x^2-1));
 
 
 %% CALCULATE T_MAX, BREAK UP INTO DIVISIONS
@@ -59,7 +21,7 @@ n = T_max*2;
 
 for m = 2:n+1
     T(m) = (DT + (m-1))*DTOR;
-    %Mach from T(i) using T(i) = v_PM (FALSE POSITION)
+    %Mach from T(i) usingamma T(i) = v_PM (FALSE POSITION)
     x_int = [1 1.01*Me];
     func = @(x) T(m) - v_PM(x);
     M(m) = fzero(func,x_int);
@@ -70,9 +32,9 @@ for m = 2:n+1
     LR(m) = tan(T(m)+asin(1/M(m)));
     SL(m) = -RR(m);
 end
-%% PLOTTING
+%% PLOTTINgamma
 P(1) = [];
-l = length(P);
+l = lengammath(P);
 
 for j = 1:l
     P1 = [0 TR];
@@ -87,7 +49,7 @@ LR(1) = []; RR(1) = [];
 SL(1) = [];
 F = RR(m-1);
 
-for c = 1:length(P)-1
+for c = 1:lengammath(P)-1
     x(c) = (TR+SL(c)*P(c))/(SL(c)-F);
     y(c) = F*x(c)+TR;
     X_P = [P(c) x(c)];
@@ -102,13 +64,13 @@ xw(1) = (TR+SL(1)*P(1))/(SL(1)-tan(TM));
 yw(1) = tan(TM)*xw(1)+TR;
 X_P2 = [P(1) xw];
 Y_P2 = [P(2) yw];
-plot(X_P2,Y_P2,'g');
+plot(X_P2,Y_P2,'gamma');
 %DIVIDE (delta slopes)
-DTW = tan(TM)/(length(P)-1);
+DTW = tan(TM)/(lengammath(P)-1);
 s(1) = tan(TM);
 b(1) = TR;
 
-    for k = 2:length(P)-1
+    for k = 2:lengammath(P)-1
         s(k) = tan(TM)-(k-1)*DTW; %slope
         b(k) = yw(k-1)-s(k)*xw(k-1); %y-int
         xw(k) = (b(k)+SL(k)*P(k))/(SL(k)-s(k));
@@ -120,16 +82,16 @@ b(1) = TR;
     hold on
 
    % LAST POINT
-    xf = (b(length(b))+SL(length(SL))*P(length(P)))/SL(length(SL));
-    yf = b(length(b));
-    X_F = [P(length(P)) xf];
+    xf = (b(lengammath(b))+SL(lengammath(SL))*P(lengammath(P)))/SL(lengammath(SL));
+    yf = b(lengammath(b));
+    X_F = [P(lengammath(P)) xf];
     Y_F = [0 yf];
     plot(X_F,Y_F,'r');
 
     xw = [0 xw];
     yw = [TR yw];
     RTHROAT = TR;
-    REXIT = yw(length(yw));
+    REXIT = yw(lengammath(yw));
     disp("Diameter of throat: "+ num2str(RTHROAT*2)+"cm");
     disp("Diameter of exit: "+ num2str(REXIT*2)+"cm");
 
@@ -137,3 +99,6 @@ b(1) = TR;
 
     %xw
     %yw
+    
+end
+

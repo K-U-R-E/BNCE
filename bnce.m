@@ -42,11 +42,16 @@ disp("Getting values and doing preliminary calculations")
 solver = xlsread('bnce_inputs.xlsx','bnce_inputs','B3');
 
 if solver == 1 || solver == 0
+    % Read the percentage length variable for the Rao solver
+    if solver == 0
+        fraction_length = xlsread('bnce_inputs.xlsx','bnce_inputs','F3');
+    end
     disp("Solver: Good")
 else
     disp("Check solver choice")
     return
 end
+
 
 gamma = xlsread('bnce_inputs.xlsx','bnce_inputs','B5');
 R = xlsread('bnce_inputs.xlsx','bnce_inputs','B6');
@@ -90,7 +95,7 @@ temperature_chamber = xlsread('bnce_inputs.xlsx','bnce_inputs','B13');
 
 pressure_ratio = pressure_ambient/pressure_chamber;
 pressure_ratio2 = pressure_ratio ^ ((gamma -1)/gamma); 
-temperature_throat = (2*gamma*R*temperature_chamber)/(gamma-1);
+temperature_throat = (2*temperature_chamber)/(gamma+1);
 
 pressure_throat = ((2/(gamma+1))^(gamma/(gamma-1)))*2.068;
 velocity_throat = sqrt((2*gamma*R*temperature_chamber)/(gamma+1));
@@ -115,6 +120,24 @@ end
 temperature_exit = temperature_chamber*(pressure_ambient/pressure_chamber)^((gamma-1)/gamma);
 area_exit = sqrt(gamma*R*temperature_exit);
 mach_exit = velocity_exit / area_exit;
+
+disp("Let the show begin");
+radius_throat = 0.02;
+if solver == 0
+    cd src
+    [xpoints, ypoints] = bnce_rao(gamma, radius_throat,fraction_length,pressure_ratio);
+    plot(xpoints, ypoints);
+    hold on 
+    cd ..
+else
+    cd src
+    [xpoints, ypoints] = bnce_moc(radius_throat, gamma, R,mach_exit,temperature_exit);
+    cd ..
+    %pass
+end
+
+disp("Let's get some stats")
+
 
 
 

@@ -1,1 +1,8 @@
+# MAC rubbish
 .DS_Store
+
+#other 
+*~
+*.png
+*.txt
+!LICENSE.txt
