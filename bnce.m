@@ -95,7 +95,7 @@ temperature_chamber = xlsread('bnce_inputs.xlsx','bnce_inputs','B13');
 
 pressure_ratio = pressure_ambient/pressure_chamber;
 pressure_ratio2 = pressure_ratio ^ ((gamma -1)/gamma); 
-temperature_throat = (2*temperature_chamber)/(gamma+1);
+temperature_throat = (2*temperature_chamber)/(gamma+1); 
 
 pressure_throat = ((2/(gamma+1))^(gamma/(gamma-1)))*2.068;
 velocity_throat = sqrt((2*gamma*R*temperature_chamber)/(gamma+1));
@@ -131,11 +131,28 @@ if solver == 0
     cd ..
 else
     cd src
-    [xpoints, ypoints] = bnce_moc(radius_throat, gamma, R,mach_exit,temperature_exit);
+    [xpoints, ypoints] = bnce_moc(radius_throat, pressure_ratio, temperature_chamber, gamma, R, mach_exit);
     cd ..
     %pass
 end
 
+cd src; surfpoints = bnce_spin(xpoints,ypoints);
+
+    hold on
+    surf2solid(surfpoints(1, :), surfpoints(2, :), surfpoints(3, :));
+    % Plot contour
+    title('3D Contour')
+    ylabel('y')
+    xlabel('Width (mm)')
+    zlabel('Legth (mm)')
+    axis equal
+    grid on
+    
+    x,y,z = size(surfpoints);
+    solid = surf2solid(surfpoints(1, 2:x-5), surfpoints(2, 2:y-5), surfpoints(3, 2:z-5));
+
+    
+cd ..;
 disp("Let's get some stats")
 
 

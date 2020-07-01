@@ -1,16 +1,30 @@
-function [xpoints, ypoints] = bnce_moc( RT, gamma, R,Me, temperature_exit)
+%
+% http://www.ltas-aea.ulg.ac.be/cms/uploads/Aerothermodynamics05.pdf
+%
+%
+
+function [xpoints, ypoints] = bnce_moc(TR, PR, T_1, g, R, Me)
 
 
-a_e = sqrt(gamma*R*temperature_exit);
 
-% MOC
-TR = RT;
+PR2 = (PR)^((g-1)/g);
+TT = (2*g*R*T_1)/(g-1);
+
+v_e = sqrt(TT*(1-PR2));
+
+T_e = T_1*(PR)^((g-1)/g);
+a_e = sqrt(g*R*T_e);
+
+Me = v_e/a_e;
+    
 
 RTOD = 180/pi;
 DTOR = pi/180;
 P = []; %x axis points
 %% PM FUNCTION
-v_PM = @(x) (sqrt((gamma+1)/(gamma-1)))*atan(sqrt(((gamma-1)/(gamma+1))*(x^2-1))) - atan(sqrt(x^2-1));
+A = sqrt((g+1)/(g-1));
+B = (g-1)/(g+1);
+v_PM = @(x) A*atan(sqrt(B*(x^2-1))) - atan(sqrt(x^2-1));
 
 
 %% CALCULATE T_MAX, BREAK UP INTO DIVISIONS
@@ -21,7 +35,7 @@ n = T_max*2;
 
 for m = 2:n+1
     T(m) = (DT + (m-1))*DTOR;
-    %Mach from T(i) usingamma T(i) = v_PM (FALSE POSITION)
+    %Mach from T(i) using T(i) = v_PM (FALSE POSITION)
     x_int = [1 1.01*Me];
     func = @(x) T(m) - v_PM(x);
     M(m) = fzero(func,x_int);
@@ -32,73 +46,68 @@ for m = 2:n+1
     LR(m) = tan(T(m)+asin(1/M(m)));
     SL(m) = -RR(m);
 end
-%% PLOTTINgamma
+%% PLOTTING
 P(1) = [];
-l = lengammath(P);
+l = length(P);
 
 for j = 1:l
     P1 = [0 TR];
     P2 = [P(j) 0];
-    plot(P2,P1,'k')
-    hold on
-    xlabel('CENTERLINE')
-    ylabel('RADIUS')
+    %plot(P2,P1,'k')
+    %hold on
+    %xlabel('CENTERLINE')
+    %ylabel('RADIUS')
 end
-hold on;
+%hold on;
 LR(1) = []; RR(1) = [];
 SL(1) = [];
 F = RR(m-1);
 
-for c = 1:lengammath(P)-1
+for c = 1:length(P)-1
     x(c) = (TR+SL(c)*P(c))/(SL(c)-F);
     y(c) = F*x(c)+TR;
     X_P = [P(c) x(c)];
     Y_P = [0 y(c)];
-    plot(X_P,Y_P,'b');
-end
-hold on
 
-%% FIRST WALL SECTION
+end
+
+
 TM = T_max*DTOR;
 xw(1) = (TR+SL(1)*P(1))/(SL(1)-tan(TM));
 yw(1) = tan(TM)*xw(1)+TR;
 X_P2 = [P(1) xw];
 Y_P2 = [P(2) yw];
-plot(X_P2,Y_P2,'gamma');
-%DIVIDE (delta slopes)
-DTW = tan(TM)/(lengammath(P)-1);
+
+DTW = tan(TM)/(length(P)-1);
 s(1) = tan(TM);
 b(1) = TR;
 
-    for k = 2:lengammath(P)-1
+    for k = 2:length(P)-1
         s(k) = tan(TM)-(k-1)*DTW; %slope
         b(k) = yw(k-1)-s(k)*xw(k-1); %y-int
         xw(k) = (b(k)+SL(k)*P(k))/(SL(k)-s(k));
         yw(k) = s(k)*xw(k)+b(k);
         X_P3 = [x(k) xw(k)];
         Y_P3 = [y(k) yw(k)];
-        plot(X_P3,Y_P3,'r');
+        %plot(X_P3,Y_P3,'r');
     end
-    hold on
-
-   % LAST POINT
-    xf = (b(lengammath(b))+SL(lengammath(SL))*P(lengammath(P)))/SL(lengammath(SL));
-    yf = b(lengammath(b));
-    X_F = [P(lengammath(P)) xf];
-    Y_F = [0 yf];
-    plot(X_F,Y_F,'r');
-
-    xw = [0 xw];
-    yw = [TR yw];
-    RTHROAT = TR;
-    REXIT = yw(lengammath(yw));
-    disp("Diameter of throat: "+ num2str(RTHROAT*2)+"cm");
-    disp("Diameter of exit: "+ num2str(REXIT*2)+"cm");
-
-    AR = (RTHROAT/REXIT)^2;
-
-    %xw
-    %yw
+    %hold on
+    
+%    LAST POINT
+    xf = (b(length(b))+SL(length(SL))*P(length(P)))/SL(length(SL));
+    yf = b(length(b));
+   % xw(length(xw)) = xf;
+   % yw(length(yw)) = yf;
+    
+%     X_F = [P(length(P)) xf];
+%     Y_F = [0 yf];
+    %plot(X_F,Y_F,'r');
+    
+     xw = [0 xw];
+     yw = [TR yw];
+    
+    xpoints = xw;
+    ypoints = yw;
     
 end
 
