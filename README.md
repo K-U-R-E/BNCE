@@ -6,7 +6,7 @@ This project is in association with the Kingston University's Rocket Propulsion 
 
 The tool has two solves being implemented, Rao's method and the Method of Characteristics.
 
-The repository can be downloaded using the command git clone "https://github.com/vinaywilliams/BNCE.git". If you have access to this repository and it wasn't allowed by one of the following persons please inform one of them:
+The repository can be downloaded using the command git clone "https://gitlab.kingston.ac.uk/ARK/BNCE.git". If you have access to this repository and it wasn't allowed by one of the following persons please inform one of them:
 
 * Malcolm Claus (m.claus@kingston.ac.uk)
 * Peter Shaw (p.shaw@kingston.ac.uk) 
