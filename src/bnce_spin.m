@@ -1,3 +1,5 @@
+% BNCE SPIN
+
 function [surfpoints] = bnce_spin(xpoints, ypoints)
 surfpoints = [3, length(ypoints), 360]; 
     for i = 1:length(ypoints)

@@ -1,38 +1,7 @@
-% Created by Vinay Williams
-% Date 29/06/20
-% 
-% MIT License
-% 
-% Copyright (c) 2020 Vinay Williams
-% 
-% Permission is hereby granted, free of charge, to any person obtaining a copy
-% of this software and associated documentation files (the "Software"), to deal
-% in the Software without restriction, including without limitation the rights
-% to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-% copies of the Software, and to permit persons to whom the Software is
-% furnished to do so, subject to the following conditions:
-% 
-% The above copyright notice and this permission notice shall be included in all
-% copies or substantial portions of the Software.
-% 
-% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-% IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-% FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-% AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-% LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-% OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-% SOFTWARE.
-%
-%
-% If you would like to use this script as a standalone program, no changes
-% are needed, however, if you would like to adapt it into your own script
-% then the variable "standlone" needs its state to be changed to 1. This
-% can be done in the script or in the excel file
-%
-standalone = 0;
-%
-%
-%% Get variables from excel file
+% BNCE MAIN
+
+standalone = 1;
+
 clc;
 close all;
 clear;
@@ -122,7 +91,7 @@ area_exit = sqrt(gamma*R*temperature_exit);
 mach_exit = velocity_exit / area_exit;
 
 disp("Let the show begin");
-radius_throat = 0.02;
+radius_throat = 0.01;
 if solver == 0
     cd src
     [xpoints, ypoints] = bnce_rao(gamma, radius_throat,fraction_length,pressure_ratio);
@@ -136,24 +105,28 @@ else
     %pass
 end
 
-cd src; surfpoints = bnce_spin(xpoints,ypoints);
+% @New Shrike Programmers: Unifinished below, I think the math for rotatating the curve has a problem, not quite sure what it is ~ Vinay
 
-    hold on
-    surf2solid(surfpoints(1, :), surfpoints(2, :), surfpoints(3, :));
-    % Plot contour
-    title('3D Contour')
-    ylabel('y')
-    xlabel('Width (mm)')
-    zlabel('Legth (mm)')
-    axis equal
-    grid on
-    
-    x,y,z = size(surfpoints);
-    solid = surf2solid(surfpoints(1, 2:x-5), surfpoints(2, 2:y-5), surfpoints(3, 2:z-5));
+%cd src; surfpoints = bnce_spin(xpoints,ypoints);
+
+%     hold on
+%     surf2solid(surfpoints(1, :), surfpoints(2, :), surfpoints(3, :));
+%     % Plot contour
+%     title('3D Contour')
+%     ylabel('y')
+%     xlabel('Width (mm)')
+%     zlabel('Legth (mm)')
+%     axis equal
+%     grid on
+%     
+%     x,y,z = size(surfpoints);
+%     solid = surf2solid(surfpoints(1, 2:x-5), surfpoints(2, 2:y-5), surfpoints(3, 2:z-5));
 
     
 cd ..;
 disp("Let's get some stats")
+
+% @ New Shrike Programmers: Unfinished here, you need to implement a stats page ~ Vinay
 
 
 

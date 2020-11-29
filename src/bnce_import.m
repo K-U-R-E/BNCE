@@ -1,4 +1,5 @@
-ls
+% BNCE Imports
+
 solver = xlsread('bnce_temp.xlsx','bnce_inputs','B3');
 
 if solver == 1 || solver == 0
@@ -18,6 +19,7 @@ R = xlsread('bnce_temp.xlsx','bnce_inputs','B6');
 
 % Check the flag for defined ambient pressure or defined altitude and does
 % the relevant calculations
+
 if xlsread('bnce_temp.xlsx','bnce_inputs','B8') == 1
     pressure_ambient = xlsread('bnce_temp.xlsx','bnce_inputs','B9');
     disp("Ambient Pressure v Altitude: Good")

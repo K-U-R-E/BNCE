@@ -1,11 +1,6 @@
-%
-% http://www.ltas-aea.ulg.ac.be/cms/uploads/Aerothermodynamics05.pdf
-%
-%
+% BNCE Method of Characteristics
 
 function [xpoints, ypoints] = bnce_moc(TR, PR, T_1, g, R, Me)
-
-
 
 PR2 = (PR)^((g-1)/g);
 TT = (2*g*R*T_1)/(g-1);
@@ -46,7 +41,9 @@ for m = 2:n+1
     LR(m) = tan(T(m)+asin(1/M(m)));
     SL(m) = -RR(m);
 end
+
 %% PLOTTING
+
 P(1) = [];
 l = length(P);
 
