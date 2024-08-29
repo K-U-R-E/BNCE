@@ -1,4 +1,4 @@
-# BNCE DOCUMENTATION
+# BNCE - Bell Nozzle Contour Evaluator
 
 This program uses the Rao Method to compute the nozzle's contour. There are plans to add functionality for its determination using the method of characteristics
 
